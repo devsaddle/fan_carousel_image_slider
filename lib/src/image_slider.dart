@@ -45,6 +45,7 @@ class FanCarouselImageSlider extends StatefulWidget {
           color: Colors.black,
         )),
     this.expandedCloseBtnDecoration,
+    this.indexChanged
   })  : assert(imagesLink.length > 0),
         assert(initalPageIndex <= (imagesLink.length - 1) && initalPageIndex >= 0);
 
@@ -162,6 +163,9 @@ class FanCarouselImageSlider extends StatefulWidget {
   /// Determines the style of the expanded image's close button container.
   /// It can be null then the default style will be applied.
   final BoxDecoration? expandedCloseBtnDecoration;
+
+
+  final Function(int index)? indexChanged;
 
   @override
   State<FanCarouselImageSlider> createState() => _FanCarouselImageSliderState();
@@ -346,6 +350,10 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
           duration: widget.sliderDuration, curve: Curves.easeIn);
     }
     _isAutoAnimate = false;
+
+    if(widget.indexChanged != null){
+      widget.indexChanged!(_currentIndex.value);
+    }
   }
 
   _goPrevPage() async {
@@ -356,5 +364,8 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
           duration: widget.sliderDuration, curve: Curves.easeOut);
     }
     _isAutoAnimate = false;
+    if(widget.indexChanged != null){
+      widget.indexChanged!(_currentIndex.value);
+    }
   }
 }
