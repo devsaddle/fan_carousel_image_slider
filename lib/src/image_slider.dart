@@ -7,47 +7,48 @@ import 'widgets/indicators_widget.dart';
 import 'widgets/slide_widget.dart';
 
 class FanCarouselImageSlider extends StatefulWidget {
-  const FanCarouselImageSlider({
-    super.key,
-    required this.imagesLink,
-    required this.isAssets,
-    this.showIndicator = true,
-    this.showArrowNav = false,
-    this.initalPageIndex = 1,
-    this.sliderHeight = 500,
-    this.sliderWidth = double.infinity,
-    this.turns = 250,
-    this.sidesOpacity = 0.8,
-    this.imageRadius = 40,
-    this.imageFitMode = BoxFit.cover,
-    this.slideViewportFraction = 0.7,
-    this.sliderDuration = const Duration(milliseconds: 600),
-    this.indicatorActiveColor = Colors.pink,
-    this.indicatorDeactiveColor = Colors.grey,
-    this.autoPlayInterval = const Duration(milliseconds: 3000),
-    this.autoPlay = true,
-    this.userCanDrag = true,
-    this.currentItemShadow = const [
-      BoxShadow(offset: Offset(1, 1), color: Colors.grey, blurRadius: 10),
-      BoxShadow(offset: Offset(-1, -1), color: Colors.grey, blurRadius: 10),
-    ],
-    this.sideItemsShadow,
-    this.isClickable = true,
-    this.expandImageWidth,
-    this.expandImageHeight,
-    this.expandedImageFitMode = BoxFit.cover,
-    this.expandedCloseBtnAlign = Alignment.bottomLeft,
-    this.expandedCloseBtn,
-    this.expandedCloseChild = const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 20),
-        child: Icon(
-          Icons.arrow_back_ios_rounded,
-          color: Colors.black,
-        )),
-    this.expandedCloseBtnDecoration,
-    this.indexChanged
-  })  : assert(imagesLink.length > 0),
-        assert(initalPageIndex <= (imagesLink.length - 1) && initalPageIndex >= 0);
+  const FanCarouselImageSlider(
+      {super.key,
+      required this.imagesLink,
+      required this.isAssets,
+      this.showIndicator = true,
+      this.showArrowNav = false,
+      this.initalPageIndex = 1,
+      this.sliderHeight = 500,
+      this.sliderWidth = double.infinity,
+      this.turns = 250,
+      this.sidesOpacity = 0.8,
+      this.imageRadius = 40,
+      this.imageFitMode = BoxFit.cover,
+      this.slideViewportFraction = 0.7,
+      this.sliderDuration = const Duration(milliseconds: 600),
+      this.indicatorActiveColor = Colors.pink,
+      this.indicatorDeactiveColor = Colors.grey,
+      this.autoPlayInterval = const Duration(milliseconds: 3000),
+      this.autoPlay = true,
+      this.userCanDrag = true,
+      this.currentItemShadow = const [
+        BoxShadow(offset: Offset(1, 1), color: Colors.grey, blurRadius: 10),
+        BoxShadow(offset: Offset(-1, -1), color: Colors.grey, blurRadius: 10),
+      ],
+      this.sideItemsShadow,
+      this.isClickable = true,
+      this.expandImageWidth,
+      this.expandImageHeight,
+      this.expandedImageFitMode = BoxFit.cover,
+      this.expandedCloseBtnAlign = Alignment.bottomLeft,
+      this.expandedCloseBtn,
+      this.expandedCloseChild = const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 45, vertical: 20),
+          child: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.black,
+          )),
+      this.expandedCloseBtnDecoration,
+      this.indexChanged})
+      : assert(imagesLink.length > 0),
+        assert(
+            initalPageIndex <= (imagesLink.length - 1) && initalPageIndex >= 0);
 
   /// List of images to be shown in the slider; Accepts two types of link.
   /// For example: `https://...jpg` for online images and `assets/...` for local images.
@@ -164,7 +165,6 @@ class FanCarouselImageSlider extends StatefulWidget {
   /// It can be null then the default style will be applied.
   final BoxDecoration? expandedCloseBtnDecoration;
 
-
   final Function(int index)? indexChanged;
 
   @override
@@ -193,7 +193,8 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
 
     _currentIndex = ValueNotifier<int>(widget.initalPageIndex);
     _pageController = PageController(
-        initialPage: _currentIndex.value, viewportFraction: widget.slideViewportFraction);
+        initialPage: _currentIndex.value,
+        viewportFraction: widget.slideViewportFraction);
 
     if (widget.autoPlay) _autoPlayeTimerStart();
   }
@@ -218,17 +219,15 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
           child: ValueListenableBuilder<bool>(
             valueListenable: _isExpandSlide,
             builder: (context, isExpand, child) {
-              if (widget.autoPlay) (isExpand) ? _timer?.cancel() : _autoPlayeTimerStart();
-              expandedImage = (isExpand) ? widget.imagesLink[_currentIndex.value] : null;
+              if (widget.autoPlay)
+                (isExpand) ? _timer?.cancel() : _autoPlayeTimerStart();
+              expandedImage =
+                  (isExpand) ? widget.imagesLink[_currentIndex.value] : null;
               return AnimatedContainer(
                   margin: const EdgeInsets.only(top: 15),
                   duration: widget.sliderDuration,
-                  width: (!isExpand)
-                      ? 100
-                      : (widget.expandImageWidth ?? MediaQuery.of(context).size.width * 0.9),
-                  height: (!isExpand)
-                      ? 0
-                      : (widget.expandImageHeight ?? (MediaQuery.of(context).size.height * 0.8)),
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(widget.imageRadius),
                     image: (expandedImage != null)
@@ -281,7 +280,10 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
                         : const NeverScrollableScrollPhysics(),
                     controller: _pageController,
                     onPageChanged: (newIndex) {
-                      if (!_isAutoAnimate) (actualIndex < newIndex) ? _goNextPage() : _goPrevPage();
+                      if (!_isAutoAnimate)
+                        (actualIndex < newIndex)
+                            ? _goNextPage()
+                            : _goPrevPage();
                     },
                     itemCount: widget.imagesLink.length,
                     itemBuilder: (context, index) {
@@ -351,7 +353,7 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
     }
     _isAutoAnimate = false;
 
-    if(widget.indexChanged != null){
+    if (widget.indexChanged != null) {
       widget.indexChanged!(_currentIndex.value);
     }
   }
@@ -364,7 +366,7 @@ class _FanCarouselImageSliderState extends State<FanCarouselImageSlider> {
           duration: widget.sliderDuration, curve: Curves.easeOut);
     }
     _isAutoAnimate = false;
-    if(widget.indexChanged != null){
+    if (widget.indexChanged != null) {
       widget.indexChanged!(_currentIndex.value);
     }
   }
